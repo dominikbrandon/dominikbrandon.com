@@ -7,14 +7,14 @@ paginate: 5
 language: 'en-uk'
 
 # Website info
-name: 'Finding The Way Home'
+name: 'Dominik Grzelak'
 description: "A beautiful narrative written with the world's most elegant publishing platform. The story begins here."
 
 short_url: 'jekyllt.github.io/jasper/'
 google_analytics: UA-69281367-1
 disqus: username
 # edit baseurl to simply '/' if using as your personal page (instead of a project page)
-baseurl: /jasper/
+baseurl: /
 
 # Permalinks
 permalink: /:title
@@ -31,6 +31,13 @@ plugins: [jekyll-paginate]
 # Post's page cover as a per-post basis _posts/...
 # Disqus comments as a per-post basis
 # ...
+
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      logo: null
 
 
 # Settings for builing master branch with travis-ci
