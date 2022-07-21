@@ -5,4 +5,3 @@ install:
 
 serve:
 	cd root && bundle exec jekyll serve --livereload
-
