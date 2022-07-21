@@ -37,7 +37,7 @@ defaults:
     scope:
       path: ""
     values:
-      logo: null
+      logo: 'assets/images/home.svg'
 
 
 # Settings for builing master branch with travis-ci
