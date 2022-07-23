@@ -9,3 +9,7 @@
 [inspiration](https://github.com/nurkiewicz/nurkiewicz.com)
 
 [comments engine](https://utteranc.es/)
+
+[free images](https://www.pexels.com)
+
+[image resizing](https://squoosh.app/)

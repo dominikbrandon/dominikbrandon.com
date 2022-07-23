@@ -3,7 +3,7 @@ layout: page
 title: About me
 navigation: true
 current: about-me
-cover: 'assets/images/cover4.jpg'
+cover: 'assets/images/cover-sky2.webp'
 ---
 
 Hey, it's good to see you here! I don't really know how did you find yourself in this place, you've reached the end of the Internet, congratulations.
