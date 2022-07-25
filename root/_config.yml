@@ -11,7 +11,6 @@ name: "Dominik B. Grzelak"
 description: "Welcome to my blog. Tbh I'm not yet sure what I'm gonna post here. Most likely expect some thoughts on <strong>creating software</strong>. My thoughts are obviously <em>strictly subjective</em> and you may not agree with them. In that case I'll be happy to get to know your perspective - please feel invited to share your thoughts in the comments. I'll respond for sure!"
 
 short_url: 'jekyllt.github.io/jasper/'
-google_analytics: UA-69281367-1
 disqus: username
 # edit baseurl to simply '/' if using as your personal page (instead of a project page)
 baseurl: /
