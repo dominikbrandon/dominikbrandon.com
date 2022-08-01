@@ -2273,3 +2273,6 @@ body.page-template .post-title {
     padding-left: 20px;
     float: right;
 }
+figure.highlight {
+    margin: 0;
+}
