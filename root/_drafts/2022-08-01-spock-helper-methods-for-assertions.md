@@ -8,12 +8,14 @@ tags: [Tips and tricks, Groovy, Spock, Testing]
 subclass: 'post'
 author: dominik
 categories: dominik
-description: '' #todo
+description: 'A blog post describing my approach to using helper methods for assertions in Spock.'
 ---
+
+> Examples below base on [Spock 2.0](https://mvnrepository.com/artifact/org.spockframework/spock-core/2.0-groovy-3.0){:target="_blank" rel="noopener noreferrer"}.
 
 Whenever I write tests, I always try to do it in such a way that when it eventually fails -
 the reason for that is clear and can be inferred based on the test output. In other words -
-when the test fails, it should tell you specifically what failed and why, without the need
+**when the test fails, it should tell you specifically what failed and why**, without the need
 to use debugger or perform deep code analysis.
 
 #### ❌ What not to do
@@ -44,7 +46,7 @@ false        abc
 {% endhighlight %}
 
 Not helpful at all, is it? The only thing you know based on the output is that `helperMethod`
-returned false, but it's vague which exactly of the two conditions was the false one.
+returned false, but *it's vague which exactly of the two conditions was the false one*.
 How to improve this?
 
 #### ✅ Do this instead
@@ -85,7 +87,7 @@ Yeah, you're right, I totally feel you. The example was very simple for the sake
 Let's now look at the real-world one.
 
 Let's say that your code sends events and in the tests you want to intercept these events,
-store them in the memory and make assertions based on that. How did it look like when done in
+store them in the memory and make assertions based on that. What did it look like when done in
 a bad way?
 {% highlight groovy %}
 public record Event(int id, String body) { }
@@ -113,17 +115,25 @@ false        Event[id=1, body=b]
 	at MyTest.should send events(MyTest.groovy:15)
 {% endhighlight %}
 
-So... event was not sent, right? That's what it says at least. But what
+So... event was not sent, right? That's what it says, at least. But what
 [`.contains()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html#contains(java.lang.Object)){:target="_blank" rel="noopener noreferrer"}
-actually does is that it's checking the equality of an object. So it's not _event
-was not sent_, but rather _this exact event was not sent_. What are the implications of that?
+actually does is that it's checking the equality of an object. So it's not *event
+was not sent*, but rather *this exact event was not sent*. 
+
+So basically there are two different situations possible: one is that no events
+were sent and the other one is that there were some events sent, but none of
+them matched our expected one. Then which one actually occurred? We don't know
+that, the test output does not provide any hint on it. We would need to run
+the debugger in order to track down the issue, which is costly and can take
+some time.
+
 Let's try the better way and see the benefits.
 {% highlight groovy %}
 public record Event(int id, String body) { }
 
 def "should send events"() {
     given:
-        Event expectedEvent = new Event(1, "b")
+        Event expectedEvent = new Event(1, "dog barked")
     when:
         operationThatTriggersEvents()
     expect:
@@ -139,13 +149,20 @@ Condition not satisfied:
 
 interceptedEvents.contains(expected)
 |                 |        |
-|                 false    Event[id=1, body=b]
-[Event[id=1, body=a], Event[id=2, body=b]]
+|                 false    Event[id=1, body=dog barked]
+[Event[id=1, body=thief entered the house], Event[id=2, body=dog licked the thief]]
 
 	at MyTest.eventWasSent(MyTest.groovy:19)
 	at MyTest.should send events(MyTest.groovy:15)
 {% endhighlight %}
 
-Well, it appears that the event was actually sent, but with a different body.
+Well, it seems like your dog's breed is a labrador retriever! If you want it to
+scare away the burglar, then you should reconsider your choice 😀, you'll be
+better off having a Dobermann or something.
 
-Run using [Spock 2.0](https://mvnrepository.com/artifact/org.spockframework/spock-core/2.0-groovy-3.0){:target="_blank" rel="noopener noreferrer"}.
+Anyway, the point is that having this output - **you know exactly what happened
+by just looking at it**! Isn't that great? Now that you know why the test failed,
+you can proceed with tracking down a bug in your production code, without wasting
+time on identifying the issue.
+
+Take care about your logs - they should tell you the story.
