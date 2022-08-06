@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Page Meta -->
+    <title>Spock: helper methods for assertions</title>
+    <meta name="description" content="My approach to using helper methods for assertions in Spock." />
+
+    <!-- Mobile Meta -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Brand icon -->
+    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨🏻‍💻</text></svg>" >
+
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/syntax.css" />
+
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!-- Add Google Analytics  -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SSFWQ7EVYN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SSFWQ7EVYN');
+</script>
+
+
+    <!-- Ghost outputs important style and meta data with this tag -->
+        <link rel="canonical" href="https://dominikbrandon.com//spock-helper-methods-for-assertions" />
+    <meta name="referrer" content="origin" />
+    <link rel="next" href="/page2/" />
+
+    <meta property="og:site_name" content="Dominik B. Grzelak" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Spock: helper methods for assertions" />
+    <meta property="og:description" content="My approach to using helper methods for assertions in Spock." />
+    <meta property="og:url" content="https://dominikbrandon.com//spock-helper-methods-for-assertions" />
+    <meta property="og:image" content="/assets/images/cover-flashing-screen.webp" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Spock: helper methods for assertions" />
+    <meta name="twitter:description" content="My approach to using helper methods for assertions in Spock." />
+    <meta name="twitter:url" content="https://dominikbrandon.com//spock-helper-methods-for-assertions" />
+    <meta name="twitter:image:src" content="/assets/images/cover-flashing-screen.webp" />
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "Dominik B. Grzelak",
+    "name": "Spock: helper methods for assertions",
+    "url": "https://dominikbrandon.com//spock-helper-methods-for-assertions",
+    "image": "/assets/images/cover-flashing-screen.webp",
+    "description": "My approach to using helper methods for assertions in Spock."
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="Dominik B. Grzelak" href="/feed.xml" />
+
+
+</head>
+<body class="home-template nav-closed">
+
+    <!-- The blog navigation links -->
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        <li class="nav-home " role="presentation"><a href="/">Home</a></li>
+        <li class="nav-about " role="presentation"><a href="/about-me">About me</a></li>
+        <li class="nav-tips-and-tricks " role="presentation"><a href="/tag/Tips%20and%20tricks">Tips and tricks</a></li>
+    </ul>
+    <div class="menu-footer">
+        <div class="social-links">
+            <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/dominik-grzelak-b46a56167/"><img src="/assets/images/linkedin.svg" alt="LinkedIn logo"></a>
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/dominikbrandon"><img src="/assets/images/github.svg" alt="GitHub logo"></a>
+        </div>
+        <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+    </div>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header post-head " style="background-image: url(/assets/images/cover-flashing-screen.webp) ">
+    <nav class="main-nav  overlay  clearfix">
+        <a class="blog-logo" href="/"><img src="/assets/images/home.svg" alt="Blog Logo" /></a>
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Spock: helper methods for assertions</h1>
+            <section class="post-meta">
+            <!-- <a href='/'></a> -->
+
+            
+                
+                    <a href='/author/dominik'>Dominik Grzelak</a>
+                
+            
+            <time class="post-date" datetime="2022-08-02">02 Aug 2022</time>
+                <!-- [[tags prefix=" on "]] -->
+                
+                on
+                
+                    
+                       <a href='/tag/Tips and tricks'>Tips and tricks</a>,
+                    
+                
+                    
+                       <a href='/tag/Groovy'>Groovy</a>,
+                    
+                
+                    
+                       <a href='/tag/Spock'>Spock</a>,
+                    
+                
+                    
+                       <a href='/tag/Testing'>Testing</a>
+                    
+                
+                
+            </section>
+        </header>
+
+        <section class="post-content">
+
+            <blockquote>
+  <p>Examples below base on <a href="https://mvnrepository.com/artifact/org.spockframework/spock-core/2.0-groovy-3.0" target="_blank" rel="noopener noreferrer">Spock 2.0</a>.</p>
+</blockquote>
+
+<p>Whenever I write tests, I always try to do it in such a way that when it eventually fails -
+the reason for that is clear and can be inferred based on the test output. In other words -
+<strong>when the test fails, it should tell you specifically what failed and why</strong>, without the need
+to use debugger or perform deep code analysis.</p>
+
+<h4 id="-what-not-to-do">❌ What not to do</h4>
+
+<p>Oftentimes, however, I encounter similar constructs in the code to the one below:</p>
+
+<figure class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="kt">def</span> <span class="s2">"my test"</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nl">given:</span>
+        <span class="kt">def</span> <span class="n">result</span> <span class="o">=</span> <span class="s2">"abc"</span>
+    <span class="nl">expect:</span>
+        <span class="n">helperMethod</span><span class="o">(</span><span class="n">result</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">helperMethod</span><span class="o">(</span><span class="n">String</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">a</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s2">"a"</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s2">"d"</span><span class="o">)</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>So what’s the point, what’s wrong with that? Let’s put it in the code and check the output:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">Condition not satisfied:
+
+helperMethod(result)
+|            |
+false        abc
+
+	at MyTest.my test(MyTest.groovy:11)</span></code></pre></figure>
+
+<p>Not helpful at all, is it? The only thing you know based on the output is that <code class="language-plaintext highlighter-rouge">helperMethod</code>
+returned false, but <em>it’s vague which exactly of the two conditions was the false one</em>.
+How to improve this?</p>
+
+<h4 id="-do-this-instead">✅ Do this instead</h4>
+
+<figure class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="kt">def</span> <span class="s2">"my test"</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nl">given:</span>
+        <span class="kt">def</span> <span class="n">result</span> <span class="o">=</span> <span class="s2">"abc"</span>
+    <span class="nl">expect:</span>
+        <span class="n">helperMethod</span><span class="o">(</span><span class="n">result</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">helperMethod</span><span class="o">(</span><span class="n">String</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">assert</span> <span class="n">a</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s2">"a"</span><span class="o">)</span>
+    <span class="k">assert</span> <span class="n">a</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s2">"d"</span><span class="o">)</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>So now in the case of a failure, you’ll see a neat output:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">Condition not satisfied:
+
+a.contains("d")
+| |
+| false
+abc
+
+	at MyTest.helperMethod(MyTest.groovy:16)
+	at MyTest.my test(MyTest.groovy:11)</span></code></pre></figure>
+
+<p>This now tells you exactly what happened and even shows you the value of a variable that
+undergoes the assertion. Well done!</p>
+
+<h4 id="-the-example-is-too-made-up">🧐 “The example is too made-up…”</h4>
+
+<p>Yeah, you’re right, I totally feel you. The example was very simple for the sake of clarity.
+Let’s now look at the real-world one.</p>
+
+<p>Let’s say that your code sends events and in the tests you want to intercept these events,
+store them in the memory and make assertions based on that. What did it look like when done in
+a bad way?</p>
+
+<figure class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="kd">public</span> <span class="n">record</span> <span class="nf">Event</span><span class="o">(</span><span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">body</span><span class="o">)</span> <span class="o">{</span> <span class="o">}</span>
+
+<span class="kt">def</span> <span class="s2">"should send events"</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nl">given:</span>
+        <span class="n">Event</span> <span class="n">expectedEvent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Event</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s2">"b"</span><span class="o">)</span>
+    <span class="nl">when:</span>
+        <span class="n">operationThatTriggersEvents</span><span class="o">()</span>
+    <span class="nl">expect:</span>
+        <span class="n">eventWasSent</span><span class="o">(</span><span class="n">expectedEvent</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">eventWasSent</span><span class="o">(</span><span class="n">Event</span> <span class="n">expected</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">interceptedEvents</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">expected</span><span class="o">)</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">Condition not satisfied:
+
+eventWasSent(expectedEvent)
+|            |
+false        Event[id=1, body=b]
+
+	at MyTest.should send events(MyTest.groovy:15)</span></code></pre></figure>
+
+<p>So… event was not sent, right? That’s what it says, at least. But what
+<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html#contains(java.lang.Object)" target="_blank" rel="noopener noreferrer"><code class="language-plaintext highlighter-rouge">.contains()</code></a>
+actually does is that it’s checking the equality of an object. So it’s not <em>event
+was not sent</em>, but rather <em>this exact event was not sent</em>.</p>
+
+<p>So basically there are two different situations possible: one is that no events
+were sent and the other one is that there were some events sent, but none of
+them matched our expected one. Then which one actually occurred? We don’t know
+that, the test output does not provide any hint on it. We would need to run
+the debugger in order to track down the issue, which is costly and can take
+some time.</p>
+
+<p>Let’s try the better way and see the benefits.</p>
+
+<figure class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="kd">public</span> <span class="n">record</span> <span class="nf">Event</span><span class="o">(</span><span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">body</span><span class="o">)</span> <span class="o">{</span> <span class="o">}</span>
+
+<span class="kt">def</span> <span class="s2">"should send events"</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nl">given:</span>
+        <span class="n">Event</span> <span class="n">expectedEvent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Event</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s2">"dog barked"</span><span class="o">)</span>
+    <span class="nl">when:</span>
+        <span class="n">operationThatTriggersEvents</span><span class="o">()</span>
+    <span class="nl">expect:</span>
+        <span class="n">eventWasSent</span><span class="o">(</span><span class="n">expectedEvent</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">eventWasSent</span><span class="o">(</span><span class="n">Event</span> <span class="n">expected</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">assert</span> <span class="n">interceptedEvents</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">expected</span><span class="o">)</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">Condition not satisfied:
+
+interceptedEvents.contains(expected)
+|                 |        |
+|                 false    Event[id=1, body=dog barked]
+[Event[id=1, body=thief entered the house], Event[id=2, body=dog licked the thief]]
+
+	at MyTest.eventWasSent(MyTest.groovy:19)
+	at MyTest.should send events(MyTest.groovy:15)</span></code></pre></figure>
+
+<p>Well, it seems like your dog’s breed is a labrador retriever! If you want it to
+scare away the burglar, then you should reconsider your choice 😀, you’ll be
+better off having a Dobermann or something.</p>
+
+<p>Anyway, the point is that having this output - <strong>you know exactly what happened
+by just looking at it</strong>! Isn’t that great? Now that you know why the test failed,
+you can proceed with tracking down a bug in your production code, without wasting
+time on identifying the issue.</p>
+
+<p>Take care about your logs - they should tell you the story.</p>
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+            
+                
+                    
+                        <figure class="author-image">
+                            <a class="img" href="/author/dominik" style="background-image: url(/assets/images/dominik.webp)"><span class="hidden">dominik's Picture</span></a>
+                        </figure>
+                    
+
+                    <section class="author">
+                        <h4><a href="/author/dominik">Dominik Grzelak</a></h4>
+
+                        
+                            <p> A humble software engineer that's always trying to leave the code better than it was before.</p>
+                        
+                        <div class="author-meta">
+                            <span class="author-location icon-location"> Poznań, Poland</span>
+                            <span class="author-link icon-link"><a href="https://dominikbrandon.com"> dominikbrandon.com</a></span>
+                        </div>
+                    </section>
+
+                    <!-- /author  -->
+
+                    <section class="share">
+                        <h4>Share this post</h4>
+                        <div class="social-links">
+                            <a target="_blank" rel="noopener noreferrer" href="http://twitter.com/intent/tweet?text=See%20this%20blog%20post%20by%20@dominikbrandon%20titled%20%22Spock: helper methods for assertions%22&amp;url=https://dominikbrandon.com/spock-helper-methods-for-assertions">
+                                <img class="icon-twitter" src="/assets/images/twitter.svg" alt="Twitter logo">
+                            </a>
+                            <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=https://dominikbrandon.com/spock-helper-methods-for-assertions">
+                                <img class="icon-facebook" src="/assets/images/facebook.svg" alt="Facebook logo">
+                            </a>
+                            <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/sharing/share-offsite/?url=https://dominikbrandon.com/spock-helper-methods-for-assertions">
+                                <img class="icon-linkedin" src="/assets/images/linkedin2.svg" alt="LinkedIn logo">
+                            </a>
+                        </div>
+                    </section>
+                
+            
+
+            <!-- Add Disqus Comments -->
+            
+
+            <script src="https://utteranc.es/client.js"
+                    repo="dominikbrandon/dominikbrandon.com"
+                    issue-term="title"
+                    label="discussion ✨"
+                    theme="github-light"
+                    crossorigin="anonymous"
+                    async>
+            </script>
+
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <!-- The tiny footer at the very bottom -->
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="/">Dominik B. Grzelak</a> &copy; 2022</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/jekyllt/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- highlight.js -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- jQuery needs to come before `` so that jQuery can be used in code injection -->
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <!-- Ghost outputs important scripts and data with this tag -->
+    <!--  -->
+    <!-- Fitvids makes video embeds responsive and awesome -->
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <!-- The main JavaScript file for Casper -->
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+</body>
+</html>

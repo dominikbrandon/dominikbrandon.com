@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+   
+      <title>jekyllt.github.io/jasper/</title>
+   
+   <link>https://dominikbrandon.com</link>
+   <description>Welcome to my blog. Tbh I'm not yet sure what I'm gonna post here. Most likely expect some thoughts on <strong>creating software</strong>. My thoughts are obviously <em>strictly subjective</em> and you may not agree with them. In that case I'll be happy to get to know your perspective - please feel invited to share your thoughts in the comments. I'll respond for sure!</description>
+   <language>en-uk</language>
+   <managingEditor> </managingEditor>
+   <atom:link href="rss" rel="self" type="application/rss+xml" />
+   
+	<item>
+	  <title>Spock: helper methods for assertions</title>
+	  <link>//spock-helper-methods-for-assertions</link>
+	  <author></author>
+	  <pubDate>2022-08-02T18:00:00+00:00</pubDate>
+	  <guid>//spock-helper-methods-for-assertions</guid>
+	  <description><![CDATA[
+	     <blockquote>
+  <p>Examples below base on <a href="https://mvnrepository.com/artifact/org.spockframework/spock-core/2.0-groovy-3.0" target="_blank" rel="noopener noreferrer">Spock 2.0</a>.</p>
+</blockquote>
+
+<p>Whenever I write tests, I always try to do it in such a way that when it eventually fails -
+the reason for that is clear and can be inferred based on the test output. In other words -
+<strong>when the test fails, it should tell you specifically what failed and why</strong>, without the need
+to use debugger or perform deep code analysis.</p>
+
+<h4 id="-what-not-to-do">❌ What not to do</h4>
+
+<p>Oftentimes, however, I encounter similar constructs in the code to the one below:</p>
+
+<figure class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="kt">def</span> <span class="s2">"my test"</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nl">given:</span>
+        <span class="kt">def</span> <span class="n">result</span> <span class="o">=</span> <span class="s2">"abc"</span>
+    <span class="nl">expect:</span>
+        <span class="n">helperMethod</span><span class="o">(</span><span class="n">result</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">helperMethod</span><span class="o">(</span><span class="n">String</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">a</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s2">"a"</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s2">"d"</span><span class="o">)</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>So what’s the point, what’s wrong with that? Let’s put it in the code and check the output:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">Condition not satisfied:
+
+helperMethod(result)
+|            |
+false        abc
+
+	at MyTest.my test(MyTest.groovy:11)</span></code></pre></figure>
+
+<p>Not helpful at all, is it? The only thing you know based on the output is that <code class="language-plaintext highlighter-rouge">helperMethod</code>
+returned false, but <em>it’s vague which exactly of the two conditions was the false one</em>.
+How to improve this?</p>
+
+<h4 id="-do-this-instead">✅ Do this instead</h4>
+
+<figure class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="kt">def</span> <span class="s2">"my test"</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nl">given:</span>
+        <span class="kt">def</span> <span class="n">result</span> <span class="o">=</span> <span class="s2">"abc"</span>
+    <span class="nl">expect:</span>
+        <span class="n">helperMethod</span><span class="o">(</span><span class="n">result</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">helperMethod</span><span class="o">(</span><span class="n">String</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">assert</span> <span class="n">a</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s2">"a"</span><span class="o">)</span>
+    <span class="k">assert</span> <span class="n">a</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s2">"d"</span><span class="o">)</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>So now in the case of a failure, you’ll see a neat output:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">Condition not satisfied:
+
+a.contains("d")
+| |
+| false
+abc
+
+	at MyTest.helperMethod(MyTest.groovy:16)
+	at MyTest.my test(MyTest.groovy:11)</span></code></pre></figure>
+
+<p>This now tells you exactly what happened and even shows you the value of a variable that
+undergoes the assertion. Well done!</p>
+
+<h4 id="-the-example-is-too-made-up">🧐 “The example is too made-up…”</h4>
+
+<p>Yeah, you’re right, I totally feel you. The example was very simple for the sake of clarity.
+Let’s now look at the real-world one.</p>
+
+<p>Let’s say that your code sends events and in the tests you want to intercept these events,
+store them in the memory and make assertions based on that. What did it look like when done in
+a bad way?</p>
+
+<figure class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="kd">public</span> <span class="n">record</span> <span class="nf">Event</span><span class="o">(</span><span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">body</span><span class="o">)</span> <span class="o">{</span> <span class="o">}</span>
+
+<span class="kt">def</span> <span class="s2">"should send events"</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nl">given:</span>
+        <span class="n">Event</span> <span class="n">expectedEvent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Event</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s2">"b"</span><span class="o">)</span>
+    <span class="nl">when:</span>
+        <span class="n">operationThatTriggersEvents</span><span class="o">()</span>
+    <span class="nl">expect:</span>
+        <span class="n">eventWasSent</span><span class="o">(</span><span class="n">expectedEvent</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">eventWasSent</span><span class="o">(</span><span class="n">Event</span> <span class="n">expected</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">interceptedEvents</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">expected</span><span class="o">)</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">Condition not satisfied:
+
+eventWasSent(expectedEvent)
+|            |
+false        Event[id=1, body=b]
+
+	at MyTest.should send events(MyTest.groovy:15)</span></code></pre></figure>
+
+<p>So… event was not sent, right? That’s what it says, at least. But what
+<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html#contains(java.lang.Object)" target="_blank" rel="noopener noreferrer"><code class="language-plaintext highlighter-rouge">.contains()</code></a>
+actually does is that it’s checking the equality of an object. So it’s not <em>event
+was not sent</em>, but rather <em>this exact event was not sent</em>.</p>
+
+<p>So basically there are two different situations possible: one is that no events
+were sent and the other one is that there were some events sent, but none of
+them matched our expected one. Then which one actually occurred? We don’t know
+that, the test output does not provide any hint on it. We would need to run
+the debugger in order to track down the issue, which is costly and can take
+some time.</p>
+
+<p>Let’s try the better way and see the benefits.</p>
+
+<figure class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="kd">public</span> <span class="n">record</span> <span class="nf">Event</span><span class="o">(</span><span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">body</span><span class="o">)</span> <span class="o">{</span> <span class="o">}</span>
+
+<span class="kt">def</span> <span class="s2">"should send events"</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nl">given:</span>
+        <span class="n">Event</span> <span class="n">expectedEvent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Event</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s2">"dog barked"</span><span class="o">)</span>
+    <span class="nl">when:</span>
+        <span class="n">operationThatTriggersEvents</span><span class="o">()</span>
+    <span class="nl">expect:</span>
+        <span class="n">eventWasSent</span><span class="o">(</span><span class="n">expectedEvent</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">eventWasSent</span><span class="o">(</span><span class="n">Event</span> <span class="n">expected</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">assert</span> <span class="n">interceptedEvents</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">expected</span><span class="o">)</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">Condition not satisfied:
+
+interceptedEvents.contains(expected)
+|                 |        |
+|                 false    Event[id=1, body=dog barked]
+[Event[id=1, body=thief entered the house], Event[id=2, body=dog licked the thief]]
+
+	at MyTest.eventWasSent(MyTest.groovy:19)
+	at MyTest.should send events(MyTest.groovy:15)</span></code></pre></figure>
+
+<p>Well, it seems like your dog’s breed is a labrador retriever! If you want it to
+scare away the burglar, then you should reconsider your choice 😀, you’ll be
+better off having a Dobermann or something.</p>
+
+<p>Anyway, the point is that having this output - <strong>you know exactly what happened
+by just looking at it</strong>! Isn’t that great? Now that you know why the test failed,
+you can proceed with tracking down a bug in your production code, without wasting
+time on identifying the issue.</p>
+
+<p>Take care about your logs - they should tell you the story.</p>
+
+	  ]]></description>
+	</item>
+
+
+</channel>
+</rss>
