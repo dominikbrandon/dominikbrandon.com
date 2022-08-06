@@ -1,6 +1,6 @@
 ---
 layout: post
-cover: 'assets/images/cover-flashing-screen.webp'
+cover: '/assets/images/cover-flashing-screen.webp'
 navigation: True
 title: 'Spock: helper methods for assertions'
 date: 2022-08-02 18:00:00

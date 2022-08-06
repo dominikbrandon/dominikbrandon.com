@@ -13,7 +13,7 @@ class: 'post-template'
 
 <header class="main-header post-head {% if page.cover %}" style="background-image: url({{ site.baseurl }}{{ page.cover }}) {% else %}no-cover{% endif %}">
     <nav class="main-nav {% if page.cover %} overlay {% endif %} clearfix">
-        {% if page.logo %}<a class="blog-logo" href="{{ site.baseurl }}"><img src="{{ site.baseurl }}{{ page.logo }}" alt="Blog Logo" /></a>{% endif %}
+        {% if page.logo %}<a class="blog-logo" href="{{ site.baseurl }}/"><img src="{{ site.baseurl }}{{ page.logo }}" alt="Blog Logo" /></a>{% endif %}
         {% if page.navigation %}
             <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
         {% endif %}
@@ -31,7 +31,7 @@ class: 'post-template'
 
             {% for author in site.data.authors %}
                 {% if author[1].username == page.author %}
-                    <a href='{{ site.baseurl }}author/{{ page.author }}'>{{ author[1].name }}</a>
+                    <a href='{{ site.baseurl }}/author/{{ page.author }}'>{{ author[1].name }}</a>
                 {% endif %}
             {% endfor %}
             <time class="post-date" datetime="{{ page.date | date:'%Y-%m-%d' }}">{{ page.date | date_to_string }}</time>
@@ -40,9 +40,9 @@ class: 'post-template'
                 on
                 {% for tag in page.tags %}
                     {% if forloop.index == page.tags.size %}
-                       <a href='{{ site.baseurl }}tag/{{ tag }}'>{{ tag | capitalize }}</a>
+                       <a href='{{ site.baseurl }}/tag/{{ tag }}'>{{ tag | capitalize }}</a>
                     {% else %}
-                       <a href='{{ site.baseurl }}tag/{{ tag }}'>{{ tag | capitalize }}</a>,
+                       <a href='{{ site.baseurl }}/tag/{{ tag }}'>{{ tag | capitalize }}</a>,
                     {% endif %}
                 {% endfor %}
                 {% endif %}
@@ -63,17 +63,17 @@ class: 'post-template'
                 {% if author[1].username == page.author %}
                     {% if author[1].assets %}
                         <figure class="author-image">
-                            <a class="img" href="{{ site.baseurl }}author/{{ page.author }}" style="background-image: url({{ site.baseurl }}{{ author[1].assets }})"><span class="hidden">{{ page.author }}'s Picture</span></a>
+                            <a class="img" href="{{ site.baseurl }}/author/{{ page.author }}" style="background-image: url({{ site.baseurl }}{{ author[1].assets }})"><span class="hidden">{{ page.author }}'s Picture</span></a>
                         </figure>
                     {% endif %}
 
                     <section class="author">
-                        <h4><a href="{{ site.baseurl }}author/{{ page.author }}">{{ author[1].name }}</a></h4>
+                        <h4><a href="{{ site.baseurl }}/author/{{ page.author }}">{{ author[1].name }}</a></h4>
 
                         {% if author[1].bio %}
                             <p> {{ author[1].bio }}</p>
                         {% else %}
-                            <p>Read <a href="{{ site.baseurl }}author/{{ page.author }}">more posts</a> by this author.</p>
+                            <p>Read <a href="{{ site.baseurl }}/author/{{ page.author }}">more posts</a> by this author.</p>
                         {% endif %}
                         <div class="author-meta">
                             {% if author[1].location %}<span class="author-location icon-location"> {{ author[1].location }}</span>{% endif %}
