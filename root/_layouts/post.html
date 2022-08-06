@@ -85,18 +85,17 @@ class: 'post-template'
 
                     <section class="share">
                         <h4>Share this post</h4>
-                        <a class="icon-twitter" href="http://twitter.com/share?text={{ page.title }}&amp;url={{ site.url }}{{ page.url | remove: '/' }}"
-                            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                            <span class="hidden">Twitter</span>
-                        </a>
-                        <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url | remove: '/' }}"
-                            onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                            <span class="hidden">Facebook</span>
-                        </a>
-                        <a class="icon-google-plus" href="https://plus.google.com/share?url={{ site.url }}{{ page.url | remove: '/' }}"
-                           onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                            <span class="hidden">Google+</span>
-                        </a>
+                        <div class="social-links">
+                            <a target="_blank" rel="noopener noreferrer" href="http://twitter.com/intent/tweet?text=See%20this%20blog%20post%20by%20@dominikbrandon%20titled%20%22{{ page.title }}%22&amp;url={{ site.url }}{{ page.url }}">
+                                <img class="icon-twitter" src="/assets/images/twitter.svg" alt="Twitter logo">
+                            </a>
+                            <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url }}">
+                                <img class="icon-facebook" src="/assets/images/facebook.svg" alt="Facebook logo">
+                            </a>
+                            <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.url }}{{ page.url }}">
+                                <img class="icon-linkedin" src="/assets/images/linkedin2.svg" alt="LinkedIn logo">
+                            </a>
+                        </div>
                     </section>
                 {% endif %}
             {% endfor %}

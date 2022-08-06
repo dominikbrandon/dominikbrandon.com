@@ -769,12 +769,12 @@ body.nav-opened .nav {
     left: 30px;
     right: 30px;
 }
-.social-links {
+.menu-footer .social-links {
     margin-bottom: 16px;
     display: flex;
     justify-content: space-around;
 }
-.social-links > a > img {
+.menu-footer .social-links > a > img {
     height: 32px;
     width: 32px;
     display: block;
@@ -1282,22 +1282,29 @@ body.page-template .post-title {
     width: 140px;
 }
 
-.post-footer .share a {
-    font-size: 1.8rem;
-    display: inline-block;
-    margin: 1rem 1.6rem 1.6rem 0;
-    color: #BBC7CC;
-    text-decoration: none;
+.post-footer .share .social-links {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-around;
 }
-
+.post-footer .share a {
+    line-height: 0;
+    font-size: 0;
+}
+.post-footer .share img {
+    height: 20px;
+    width: 20px;
+    filter: invert(97%) sepia(2%) saturate(2476%) hue-rotate(169deg) brightness(80%) contrast(101%);
+    transition: filter 0.3s ease;
+}
 .post-footer .share .icon-twitter:hover {
-    color: #55acee;
+    filter: invert(50%) sepia(100%) saturate(2075%) hue-rotate(176deg) brightness(99%) contrast(91%);
 }
 .post-footer .share .icon-facebook:hover {
-    color: #3b5998;
+    filter: invert(41%) sepia(16%) saturate(2109%) hue-rotate(182deg) brightness(89%) contrast(87%);
 }
-.post-footer .share .icon-google-plus:hover {
-    color: #dd4b39;
+.post-footer .share .icon-linkedin:hover {
+    filter: invert(30%) sepia(91%) saturate(3768%) hue-rotate(183deg) brightness(91%) contrast(101%);
 }
 
 
