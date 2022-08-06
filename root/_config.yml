@@ -13,7 +13,8 @@ url: "https://dominikbrandon.com"
 
 short_url: 'jekyllt.github.io/jasper/'
 disqus: username
-baseurl: ''
+# edit baseurl to simply '/' if using as your personal page (instead of a project page)
+baseurl: /
 
 # Permalinks
 permalink: /:title
@@ -36,7 +37,7 @@ defaults:
     scope:
       path: ""
     values:
-      logo: '/assets/images/home.svg'
+      logo: 'assets/images/home.svg'
 
 
 # Settings for builing master branch with travis-ci

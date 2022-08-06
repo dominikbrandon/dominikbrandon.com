@@ -1,6 +1,6 @@
 ---
 layout: post
-cover: '/assets/images/cover-flashing-screen.webp'
+cover: 'assets/images/cover-flashing-screen.webp'
 navigation: True
 title: 'Spock: helper methods for assertions'
 date: 2022-08-02 18:00:00
@@ -8,7 +8,7 @@ tags: [Tips and tricks, Groovy, Spock, Testing]
 subclass: 'post'
 author: dominik
 categories: dominik
-description: 'My approach to using helper methods for assertions in Spock'
+description: 'My approach to using helper methods for assertions in Spock.'
 ---
 
 > Examples below base on [Spock 2.0](https://mvnrepository.com/artifact/org.spockframework/spock-core/2.0-groovy-3.0){:target="_blank" rel="noopener noreferrer"}.
