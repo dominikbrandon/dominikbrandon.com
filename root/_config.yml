@@ -37,6 +37,11 @@ defaults:
       path: ""
     values:
       logo: '/assets/images/home.svg'
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      class: "post-template"      
 
 
 # Settings for builing master branch with travis-ci

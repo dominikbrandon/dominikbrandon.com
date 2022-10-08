@@ -11,12 +11,12 @@ categories: dominik
 description: 'My approach to using helper methods for assertions in Spock'
 ---
 
-> Examples below base on [Spock 2.0](https://mvnrepository.com/artifact/org.spockframework/spock-core/2.0-groovy-3.0){:target="_blank" rel="noopener noreferrer"}.
-
 Whenever I write tests, I always try to do it in such a way that when it eventually fails -
 the reason for that is clear and can be inferred based on the test output. In other words -
 **when the test fails, it should tell you specifically what failed and why**, without the need
 to use debugger or perform deep code analysis.
+
+> Examples below base on [Spock 2.0](https://mvnrepository.com/artifact/org.spockframework/spock-core/2.0-groovy-3.0){:target="_blank" rel="noopener noreferrer"}.
 
 #### ❌ What not to do
 
