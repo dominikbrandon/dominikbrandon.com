@@ -111,20 +111,78 @@ into play quickly. That was fast and easy, wasn't it?
 You can already load logs manually, but you may want to utilize more automatic
 approach in order to follow them in the real time, as they appear.
 
-kubectl port-forward svc/elasticsearch-master 9200
-
+<ol>
+<li>
+The first thing you'll need is a log file that you can follow. I want to read
+the logs of my service running in production, so I'll fetch them from Kubernetes
+using the <code>--follow</code> flag and pipe them into the file
+<code>tmp.log</code> in my home directory.
+{% highlight sh %}
+kubectl logs --follow deployment/my-service > tmp.log
+{% endhighlight %}
+</li>
+<li>
+Having the logs now streamed into the file in my local system, I can try
+ingesting them into Elasticsearch. In order to do that,
+<a href="https://www.elastic.co/beats/filebeat" target="_blank" rel="noopener noreferrer">Filebeat</a>
+seems like a good fit. Let's download and unpack it.
+<blockquote>
+    <p>
+        Please note that I'm using the same version as the rest of the stack:
+        <code>7.17.3</code>. You may also need to choose a package that fits
+        your operating system in the 
+        <a href="https://www.elastic.co/downloads/past-releases/filebeat-7-17-3" target="_blank" rel="noopener noreferrer">download</a> 
+        page.
+    </p>
+</blockquote>
+{% highlight sh %}
 curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.17.3-darwin-x86_64.tar.gz
 tar xzvf filebeat-7.17.3-darwin-x86_64.tar.gz
+{% endhighlight %}
+</li>
+<li>
+Then we'll need to tune Filebeat's configuration a little. Enter the directory,
+open <code>filebeat.yml</code>, and configure <code>filebeat.inputs</code>, so
+that it uses your local log file.
+{% highlight sh %}
 cd filebeat-7.17.3-darwin-x86_64
 vim filebeat.yml
-
- - type: filestream
-
-   # Change to true to enable this input configuration.
-   enabled: true
-
-   # Paths that should be crawled and fetched. Glob based paths.
-   paths:
-     - /Users/dominik/tmp.log
-
+{% endhighlight %}
+{% highlight yaml %}
+filebeat.inputs:
+- type: filestream
+  enabled: true
+  paths:
+  - /Users/dominik/tmp.log
+{% endhighlight %}
+<blockquote>
+    <p>
+        Filebeat obviously has plenty other options that can be configured.
+        You can find more details in the
+        <a href="https://www.elastic.co/guide/en/beats/filebeat/7.17/configuring-howto-filebeat.html" target="_blank" rel="noopener noreferrer">documentation</a>.
+    </p>
+</blockquote>
+</li>
+<li>
+We're almost ready to go. We yet need to enable port forwarding for Elasticsearch,
+so that Filebeat can communicate with it, and then let's start it up!
+{% highlight sh %}
 kubectl port-forward svc/elasticsearch-master 9200
+./filebeat -e
+{% endhighlight %}
+</li>
+</ol>
+
+You'll be able to see Filebeat logs claiming that the connection has been
+established and that it periodically scans for new changes. Navigate to
+<a href="http://localhost:5601/app/discover" target="_blank" rel="noopener noreferrer">http://localhost:5601/app/discover</a>.
+At first, you'll need to create an index pattern. Just type <code>filebeat*</code>
+and return to the Discover page.
+
+You should be able to see your logs, congratulations! You now have a powerful
+tool in hand and it didn't require much time nor a complex setup.
+
+In order to utilize the advantages that Kibana has to offer, you may want to
+use ingest pipelines.
+
+##### Stopping stuff
