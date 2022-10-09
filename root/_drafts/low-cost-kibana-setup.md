@@ -1,40 +1,40 @@
 ---
 layout: post
-cover: '/assets/images/cover-code.webp'
+cover: '/assets/images/cover-logs.webp'
 navigation: True
 title: 'Low-cost Kibana setup that everyone can afford'
-# date: 2022-10-08 11:00:00
+date: 2022-10-08 21:00:00  # Blackie's 12th birthday! ❤️
 tags: [Tips and tricks, Observability, Logs, Kibana, Infrastructure]
 subclass: 'post'
 author: dominik
 categories: dominik
-# description: 'My approach to using helper methods for assertions in Spock'
+description: 'How to run Kibana cheaply and load the logs in order to read them ad hoc?'
 ---
 
-Have you ever found yourself in a place where reading logs feels inefficient
+Have you ever found yourself in a place where **reading logs feels inefficient**
 because your best way of doing this is grepping through plain text? Do you
-miss the experience of Kibana, which embraces histograms, visualizations, and
+**miss the experience of Kibana**, which embraces histograms, visualizations, and
 filtering, but your working environment does not provide that?
 
-Well, that had been the case for me, but with a bit of effort, I've managed to
-find a good-enough solution. It bases on running Kibana on your local
+Well, that had been the case for me, but *with a bit of effort, I've managed to
+find a good-enough solution*. It bases on running Kibana on your local
 machine, so there's no additional server cost for your company. Together with
 the setup of ingesting logs from the file, it provides a very flexible way
 of running Kibana on demand.
 
 Log storage together with the whole Kibana stack may indeed cost an arm and
 a leg, so companies may be hesitant to incorporate it into their infrastructure.
-Using the approach described below might be a quick win for you if you need
-Kibana ad hoc.
+Using the approach described below might be a **quick win for you if you need
+Kibana ad hoc**.
 
-#### Prerequisites
+#### 📌 Prerequisites
 
 - local Kubernetes cluster, I used [minikube](https://github.com/kubernetes/minikube){:target="_blank" rel="noopener noreferrer"}
 - [Helm](https://helm.sh/){:target="_blank" rel="noopener noreferrer"} installed
 
-#### Step-by-step guide
+#### 🐾 Step-by-step guide
 
-##### Running ELK stack
+##### ⚙️ Running ELK stack
 
 <ol>
 <li>
@@ -106,7 +106,7 @@ Congratulations, you now have the whole ELK stack up and running on your local
 machine and you can even load some logs manually from a file in order to get
 into play quickly. That was fast and easy, wasn't it?
 
-##### Ingesting automatically from a file
+##### 🍼 Ingesting automatically from a file
 
 You can already load logs manually, but you may want to utilize more automatic
 approach in order to follow them in the real time, as they appear.
@@ -182,7 +182,32 @@ and return to the Discover page.
 You should be able to see your logs, congratulations! You now have a powerful
 tool in hand and it didn't require much time nor a complex setup.
 
-In order to utilize the advantages that Kibana has to offer, you may want to
-use ingest pipelines.
+##### 🧪 Further tuning
 
-##### Stopping stuff
+In order to utilize the advantages that Kibana has to offer, you may want to
+use **ingest pipelines**, which allow you to parse your logs into individual fields
+that you can use for filtering and searching.
+
+It's very simple if you already have one created, because
+in such case the only thing you need to do is to set its name in
+<code>filebeat.yml</code> under
+<a href="https://www.elastic.co/guide/en/beats/filebeat/7.17/filebeat-input-filestream.html#_pipeline_6" target="_blank" rel="noopener noreferrer"><code>filebeat.inputs[].pipeline</code></a>
+property.
+
+If you don't have any and you don't know how to create one, check out the way of
+<a href="http://localhost:5601/app/home#/tutorial_directory/fileDataViz" target="_blank" rel="noopener noreferrer">uploading files manually</a>.
+It provides a feature that **automatically detects your log format** and tries to
+create an ingest pipeline for them. It's not ideal, but may be good enough for
+your needs.
+
+##### 🧹 Cleaning up
+
+When you're done, you can stop the whole stack by running
+<code>helm uninstall</code> for all three Helm releases that you've created.
+You can see their names by running <code>helm list</code>.
+
+Alternatively, you can stop the whole minikube cluster by running
+<code>minikube stop</code>, but pods will start once you start the cluster
+again.
+
+🎉 That's it, **enjoy reading your logs**! And let me know if it worked for you!
