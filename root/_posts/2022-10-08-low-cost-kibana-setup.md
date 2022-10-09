@@ -34,7 +34,7 @@ Kibana ad hoc**.
 
 #### 🐾 Step-by-step guide
 
-##### ⚙️ Running ELK stack
+##### Running ELK stack
 
 <ol>
 <li>
